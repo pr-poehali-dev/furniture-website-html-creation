@@ -62,6 +62,40 @@ const products: Product[] = [
   }
 ];
 
+interface Story {
+  id: number;
+  title: string;
+  subtitle: string;
+  image: string;
+}
+
+const stories: Story[] = [
+  {
+    id: 1,
+    title: 'Гостиная',
+    subtitle: 'Уют и стиль',
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg'
+  },
+  {
+    id: 2,
+    title: 'Спальня',
+    subtitle: 'Комфорт и гармония',
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg'
+  },
+  {
+    id: 3,
+    title: 'Кухня',
+    subtitle: 'Функциональность',
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6adb0841-9b97-4834-91ae-99aa6cc2dd1d.jpg'
+  },
+  {
+    id: 4,
+    title: 'Кабинет',
+    subtitle: 'Продуктивность',
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6feb2e9b-2fc7-436e-aeb1-978d960caf5f.jpg'
+  }
+];
+
 const Index = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeSection, setActiveSection] = useState('home');
@@ -246,6 +280,35 @@ const Index = () => {
                   </div>
                 </div>
               </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 px-4 overflow-hidden">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12">Наши проекты</h2>
+          <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+            {stories.map((story, idx) => (
+              <div
+                key={story.id}
+                className="relative flex-shrink-0 w-[280px] h-[480px] rounded-3xl overflow-hidden cursor-pointer group snap-start animate-fade-in"
+                style={{ animationDelay: `${idx * 0.15}s` }}
+              >
+                <img
+                  src={story.image}
+                  alt={story.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-2xl font-bold mb-1">{story.title}</h3>
+                  <p className="text-sm opacity-90">{story.subtitle}</p>
+                </div>
+                <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Icon name="ArrowRight" size={20} className="text-white" />
+                </div>
+              </div>
             ))}
           </div>
         </div>
