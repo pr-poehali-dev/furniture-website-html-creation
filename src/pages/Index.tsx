@@ -67,6 +67,8 @@ interface Story {
   title: string;
   subtitle: string;
   image: string;
+  description: string;
+  gallery: string[];
 }
 
 const stories: Story[] = [
@@ -74,31 +76,56 @@ const stories: Story[] = [
     id: 1,
     title: 'Гостиная',
     subtitle: 'Уют и стиль',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg'
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg',
+    description: 'Современный дизайн гостиной с акцентом на комфорт и функциональность. Натуральные материалы и светлые тона создают уютную атмосферу.',
+    gallery: [
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/f359dffc-e9df-4c3b-8b5d-f871c009eba2.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/e28f76be-d1d6-4e11-847e-6cb48c34ead9.jpg'
+    ]
   },
   {
     id: 2,
     title: 'Спальня',
     subtitle: 'Комфорт и гармония',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg'
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg',
+    description: 'Спокойная спальня в нейтральных тонах. Мягкое освещение и качественный текстиль для идеального отдыха.',
+    gallery: [
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4ccf0b9c-2db0-4dbd-8e32-e9d0c382a367.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/b9ee5a97-d10e-42d5-8f18-2cdb4ed0996d.jpg'
+    ]
   },
   {
     id: 3,
     title: 'Кухня',
     subtitle: 'Функциональность',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6adb0841-9b97-4834-91ae-99aa6cc2dd1d.jpg'
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6adb0841-9b97-4834-91ae-99aa6cc2dd1d.jpg',
+    description: 'Эргономичная кухня с продуманным расположением рабочих зон. Современная техника и вместительные системы хранения.',
+    gallery: [
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6adb0841-9b97-4834-91ae-99aa6cc2dd1d.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/38483b66-2a42-45b5-9374-333ec8636aac.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/fa681b9e-9dff-4ba0-8c40-57ffd390bfaf.jpg'
+    ]
   },
   {
     id: 4,
     title: 'Кабинет',
     subtitle: 'Продуктивность',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6feb2e9b-2fc7-436e-aeb1-978d960caf5f.jpg'
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6feb2e9b-2fc7-436e-aeb1-978d960caf5f.jpg',
+    description: 'Минималистичный домашний офис для максимальной концентрации. Эргономичная мебель и достаточное освещение.',
+    gallery: [
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6feb2e9b-2fc7-436e-aeb1-978d960caf5f.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/ad1459a2-41a8-46ae-ab8b-614d2b20fc15.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/42b2eb59-ad71-4307-80ed-47ccb266128b.jpg'
+    ]
   }
 ];
 
 const Index = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeSection, setActiveSection] = useState('home');
+  const [selectedStory, setSelectedStory] = useState<Story | null>(null);
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -294,6 +321,7 @@ const Index = () => {
                 key={story.id}
                 className="relative flex-shrink-0 w-[280px] h-[480px] rounded-3xl overflow-hidden cursor-pointer group snap-start animate-fade-in"
                 style={{ animationDelay: `${idx * 0.15}s` }}
+                onClick={() => setSelectedStory(story)}
               >
                 <img
                   src={story.image}
@@ -444,6 +472,63 @@ const Index = () => {
           <p className="text-sm">© 2024 МЕБЕЛЬ+. Все права защищены.</p>
         </div>
       </footer>
+
+      {selectedStory && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm animate-fade-in"
+          onClick={() => setSelectedStory(null)}
+        >
+          <div className="h-full overflow-y-auto">
+            <div className="container mx-auto px-4 py-8">
+              <div className="max-w-6xl mx-auto">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-4xl font-bold text-white mb-2">{selectedStory.title}</h2>
+                    <p className="text-xl text-white/70">{selectedStory.subtitle}</p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-white/10"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedStory(null);
+                    }}
+                  >
+                    <Icon name="X" size={32} />
+                  </Button>
+                </div>
+
+                <p className="text-lg text-white/80 mb-8 max-w-3xl">
+                  {selectedStory.description}
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {selectedStory.gallery.map((image, idx) => (
+                    <div
+                      key={idx}
+                      className="relative aspect-[4/5] rounded-2xl overflow-hidden group cursor-pointer animate-scale-in"
+                      style={{ animationDelay: `${idx * 0.1}s` }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <img
+                        src={image}
+                        alt={`${selectedStory.title} ${idx + 1}`}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <p className="text-white text-sm font-medium">Фото {idx + 1}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
