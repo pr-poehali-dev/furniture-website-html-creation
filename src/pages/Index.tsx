@@ -174,11 +174,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-primary/20 bg-background">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-primary/20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0c3a1b] from-0% via-[#0c3a1b] via-20% to-background to-50%"></div>
         <div className="container mx-auto px-4 relative">
           <div className="flex items-center justify-between">
             <div className="relative flex items-center">
-              <div className="absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-[#1a4d2e] via-[#2d5f3f] to-transparent" style={{width: '300px', left: '-20px'}}></div>
               <img src="https://cdn.poehali.dev/files/f8197fb7-59b5-4272-ab12-b30b3a10386a.png" alt="TRIKC" className="h-24 w-auto relative z-10" />
             </div>
             
