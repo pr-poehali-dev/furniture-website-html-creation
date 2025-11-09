@@ -133,27 +133,27 @@ const Index = () => {
   const promoSlides = [
     {
       id: 1,
-      title: 'Скидка до 30%',
-      subtitle: 'На всю коллекцию диванов',
-      description: 'Успейте купить мебель мечты по специальной цене',
-      image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/34df5198-ce17-4460-bbd4-ea10b54fc910.jpg',
-      bgColor: 'from-blue-600 to-purple-600'
+      title: 'Создаем атмосферу вашего дома',
+      subtitle: 'индивидуально и под заказ',
+      description: '',
+      image: 'https://cdn.poehali.dev/files/417e765b-e421-4194-b040-cd433d5afb70.png',
+      bgColor: 'from-black/40 to-black/40'
     },
     {
       id: 2,
-      title: 'Бесплатная доставка',
-      subtitle: 'При покупке от 50 000 ₽',
-      description: 'Привезём и соберём в удобное для вас время',
-      image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/54ee6c81-90cd-40c8-83ef-3e08fdce95c4.jpg',
-      bgColor: 'from-emerald-600 to-teal-600'
+      title: 'Новая коллекция 2025',
+      subtitle: 'Эксклюзивные модели',
+      description: 'Современный дизайн от европейских брендов',
+      image: 'https://cdn.poehali.dev/files/2cc28647-7196-48de-bfb7-e88c509e23ee.png',
+      bgColor: 'from-black/40 to-black/40'
     },
     {
       id: 3,
-      title: 'Новая коллекция 2024',
-      subtitle: 'Эксклюзивные модели',
-      description: 'Современный дизайн от европейских брендов',
-      image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/e657cc27-17a3-43cc-9738-044980b45053.jpg',
-      bgColor: 'from-orange-600 to-red-600'
+      title: 'Скидка до 30%',
+      subtitle: 'На всю мягкую коллекцию',
+      description: 'Успейте купить мебель мечты по специальной цене',
+      image: 'https://cdn.poehali.dev/files/c0821260-4db1-4dcc-aeaf-76fc5566c461.png',
+      bgColor: 'from-black/40 to-black/40'
     }
   ];
 
