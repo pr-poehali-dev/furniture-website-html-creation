@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
 
 interface Product {
@@ -201,17 +203,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/20">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-primary">МЕБЕЛЬ+</div>
+            <div className="text-2xl font-bold text-primary">TRIKC</div>
             
             <nav className="hidden md:flex gap-8">
               {['Главная', 'Каталог', 'О нас', 'Доставка', 'Контакты'].map((item, idx) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(['home', 'catalog', 'about', 'delivery', 'contacts'][idx])}
-                  className="text-sm font-medium hover:text-primary transition-colors"
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
                 >
                   {item}
                 </button>
@@ -220,7 +222,7 @@ const Index = () => {
 
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="relative">
+                <Button variant="outline" size="icon" className="relative border-primary/20 hover:bg-primary/10">
                   <Icon name="ShoppingCart" size={20} />
                   {totalItems > 0 && (
                     <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
@@ -279,7 +281,7 @@ const Index = () => {
                           <span>Итого:</span>
                           <span>{totalPrice.toLocaleString('ru-RU')} ₽</span>
                         </div>
-                        <Button className="w-full" size="lg">
+                        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="lg">
                           Оформить заказ
                         </Button>
                       </div>
@@ -295,13 +297,10 @@ const Index = () => {
       <main className="pt-20">
         <section id="home" className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-primary/20 to-secondary/20">
           <div className="text-center max-w-4xl mx-auto animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Мебель вашей мечты
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-primary">
+              Создаем атмосферу вашего дома индивидуально и под заказ
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8">
-              Создаём уют в каждом доме с 2015 года
-            </p>
-            <Button size="lg" onClick={() => scrollToSection('catalog')} className="text-lg px-8">
+            <Button size="lg" onClick={() => scrollToSection('catalog')} className="text-lg px-8 bg-primary hover:bg-primary/90 text-primary-foreground">
               Смотреть каталог
               <Icon name="ArrowRight" size={20} className="ml-2" />
             </Button>
@@ -343,9 +342,9 @@ const Index = () => {
                         </p>
                         <Button 
                           size="lg" 
-                          className="bg-white text-gray-900 hover:bg-gray-100 text-lg px-8 animate-fade-in"
+                          className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 animate-fade-in"
                           style={{ animationDelay: '0.6s' }}
-                          onClick={() => scrollToSection('contact')}
+                          onClick={() => scrollToSection('contacts')}
                         >
                           Узнать подробнее
                           <Icon name="ArrowRight" size={20} className="ml-2" />
@@ -437,22 +436,22 @@ const Index = () => {
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
-              <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Card className="p-6 text-center hover:shadow-lg transition-shadow bg-card border-primary/20">
+                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Icon name="Award" size={32} className="text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Качество</h3>
                 <p className="text-muted-foreground">Только проверенные производители и материалы</p>
               </Card>
-              <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon name="Truck" size={32} className="text-secondary" />
+              <Card className="p-6 text-center hover:shadow-lg transition-shadow bg-card border-primary/20">
+                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Truck" size={32} className="text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Доставка</h3>
                 <p className="text-muted-foreground">Бесплатная доставка по городу от 10 000 ₽</p>
               </Card>
-              <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Card className="p-6 text-center hover:shadow-lg transition-shadow bg-card border-primary/20">
+                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Icon name="Shield" size={32} className="text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Гарантия</h3>
@@ -466,9 +465,9 @@ const Index = () => {
           <div className="container mx-auto max-w-4xl">
             <h2 className="text-4xl font-bold text-center mb-12">Доставка и оплата</h2>
             <div className="grid md:grid-cols-2 gap-8">
-              <Card className="p-8">
+              <Card className="p-8 bg-card border-primary/20">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
                     <Icon name="Truck" size={24} className="text-primary" />
                   </div>
                   <div>
@@ -493,10 +492,10 @@ const Index = () => {
                   </div>
                 </div>
               </Card>
-              <Card className="p-8">
+              <Card className="p-8 bg-card border-primary/20">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="CreditCard" size={24} className="text-secondary" />
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon name="CreditCard" size={24} className="text-primary" />
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Оплата</h3>
@@ -505,15 +504,15 @@ const Index = () => {
                     </p>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-secondary" />
+                        <Icon name="Check" size={16} className="text-primary" />
                         Оплата при получении
                       </li>
                       <li className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-secondary" />
+                        <Icon name="Check" size={16} className="text-primary" />
                         Банковские карты
                       </li>
                       <li className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-secondary" />
+                        <Icon name="Check" size={16} className="text-primary" />
                         Безналичный расчёт
                       </li>
                     </ul>
@@ -525,54 +524,72 @@ const Index = () => {
         </section>
 
         <section id="contacts" className="py-16 px-4">
-          <div className="container mx-auto max-w-2xl">
+          <div className="container mx-auto max-w-4xl">
             <h2 className="text-4xl font-bold text-center mb-12">Контакты</h2>
-            <Card className="p-8">
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="MapPin" size={20} className="text-primary" />
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="p-8 bg-card border-primary/20">
+                <h3 className="text-2xl font-semibold mb-6">Свяжитесь с нами</h3>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Phone" size={20} className="text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Телефон</h4>
+                      <a href="tel:+79253129492" className="text-muted-foreground hover:text-primary transition-colors">8(925) 312-94-92</a>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Адрес</h3>
-                    <p className="text-muted-foreground">г. Москва, ул. Примерная, д. 123</p>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Mail" size={20} className="text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Email</h4>
+                      <a href="mailto:trixmebel@yandex.ru" className="text-muted-foreground hover:text-primary transition-colors">trixmebel@yandex.ru</a>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Clock" size={20} className="text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Режим работы</h4>
+                      <p className="text-muted-foreground">Пн-Вс: 10:00 - 20:00</p>
+                    </div>
+                  </div>
+                  <div className="mt-8">
+                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="lg">
+                      <Icon name="MessageCircle" size={20} className="mr-2" />
+                      Написать в WhatsApp
+                    </Button>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Phone" size={20} className="text-primary" />
+              </Card>
+              <Card className="p-8 bg-card border-primary/20">
+                <h3 className="text-2xl font-semibold mb-6">Оставьте заявку</h3>
+                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium mb-2">Ваше имя</label>
+                    <Input id="name" placeholder="Иван Иванов" className="bg-background border-primary/20" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Телефон</h3>
-                    <p className="text-muted-foreground">+7 (999) 123-45-67</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Mail" size={20} className="text-primary" />
+                    <label htmlFor="phone" className="block text-sm font-medium mb-2">Телефон</label>
+                    <Input id="phone" type="tel" placeholder="+7 (999) 123-45-67" className="bg-background border-primary/20" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-muted-foreground">info@mebel-plus.ru</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Clock" size={20} className="text-primary" />
+                    <label htmlFor="email" className="block text-sm font-medium mb-2">Email (необязательно)</label>
+                    <Input id="email" type="email" placeholder="example@mail.ru" className="bg-background border-primary/20" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Режим работы</h3>
-                    <p className="text-muted-foreground">Пн-Вс: 10:00 - 20:00</p>
+                    <label htmlFor="message" className="block text-sm font-medium mb-2">Сообщение</label>
+                    <Textarea id="message" placeholder="Расскажите о вашем проекте..." rows={4} className="bg-background border-primary/20" />
                   </div>
-                </div>
-              </div>
-              <div className="mt-8">
-                <Button className="w-full" size="lg">
-                  <Icon name="MessageCircle" size={20} className="mr-2" />
-                  Написать в WhatsApp
-                </Button>
-              </div>
-            </Card>
+                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="lg">
+                    Отправить заявку
+                  </Button>
+                </form>
+              </Card>
+            </div>
           </div>
         </section>
       </main>
@@ -615,7 +632,7 @@ const Index = () => {
 
       <footer className="bg-muted/50 py-8 px-4 mt-16">
         <div className="container mx-auto text-center text-sm text-muted-foreground">
-          <p>© 2024 МЕБЕЛЬ+. Все права защищены.</p>
+          <p>© 2024 TRIKC. Все права защищены.</p>
         </div>
       </footer>
     </div>
