@@ -74,32 +74,8 @@ interface Story {
 const stories: Story[] = [
   {
     id: 1,
-    title: 'Гостиная',
-    subtitle: 'Уют и стиль',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg',
-    description: 'Современный дизайн гостиной с акцентом на комфорт и функциональность. Натуральные материалы и светлые тона создают уютную атмосферу.',
-    gallery: [
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg',
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/f359dffc-e9df-4c3b-8b5d-f871c009eba2.jpg',
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/e28f76be-d1d6-4e11-847e-6cb48c34ead9.jpg'
-    ]
-  },
-  {
-    id: 2,
-    title: 'Спальня',
-    subtitle: 'Комфорт и гармония',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg',
-    description: 'Спокойная спальня в нейтральных тонах. Мягкое освещение и качественный текстиль для идеального отдыха.',
-    gallery: [
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg',
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4ccf0b9c-2db0-4dbd-8e32-e9d0c382a367.jpg',
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/b9ee5a97-d10e-42d5-8f18-2cdb4ed0996d.jpg'
-    ]
-  },
-  {
-    id: 3,
-    title: 'Кухня',
-    subtitle: 'Функциональность',
+    title: 'Кухонный гарнитур',
+    subtitle: 'функциональный',
     image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6adb0841-9b97-4834-91ae-99aa6cc2dd1d.jpg',
     description: 'Эргономичная кухня с продуманным расположением рабочих зон. Современная техника и вместительные системы хранения.',
     gallery: [
@@ -109,15 +85,39 @@ const stories: Story[] = [
     ]
   },
   {
-    id: 4,
-    title: 'Кабинет',
-    subtitle: 'Продуктивность',
+    id: 2,
+    title: 'Шкафы и гардеробные системы',
+    subtitle: 'вместительные',
     image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6feb2e9b-2fc7-436e-aeb1-978d960caf5f.jpg',
     description: 'Минималистичный домашний офис для максимальной концентрации. Эргономичная мебель и достаточное освещение.',
     gallery: [
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6feb2e9b-2fc7-436e-aeb1-978d960caf5f.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/ad1459a2-41a8-46ae-ab8b-614d2b20fc15.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/42b2eb59-ad71-4307-80ed-47ccb266128b.jpg'
+    ]
+  },
+  {
+    id: 3,
+    title: 'Детская комната',
+    subtitle: 'уютная',
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg',
+    description: 'Современный дизайн гостиной с акцентом на комфорт и функциональность. Натуральные материалы и светлые тона создают уютную атмосферу.',
+    gallery: [
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/f359dffc-e9df-4c3b-8b5d-f871c009eba2.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/e28f76be-d1d6-4e11-847e-6cb48c34ead9.jpg'
+    ]
+  },
+  {
+    id: 4,
+    title: 'Мягкая мебель',
+    subtitle: 'комфортная',
+    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg',
+    description: 'Спокойная спальня в нейтральных тонах. Мягкое освещение и качественный текстиль для идеального отдыха.',
+    gallery: [
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4ccf0b9c-2db0-4dbd-8e32-e9d0c382a367.jpg',
+      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/b9ee5a97-d10e-42d5-8f18-2cdb4ed0996d.jpg'
     ]
   }
 ];
@@ -396,11 +396,11 @@ const Index = () => {
       <section className="py-16 px-4 overflow-hidden">
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">Наши проекты</h2>
-          <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+          <div className="flex gap-6 justify-center items-center flex-wrap max-w-6xl mx-auto">
             {stories.map((story, idx) => (
               <div
                 key={story.id}
-                className="relative flex-shrink-0 w-[280px] h-[480px] rounded-3xl overflow-hidden cursor-pointer group snap-start animate-fade-in"
+                className="relative w-[280px] h-[480px] rounded-3xl overflow-hidden cursor-pointer group animate-fade-in"
                 style={{ animationDelay: `${idx * 0.15}s` }}
                 onClick={() => setSelectedStory(story)}
               >
@@ -411,8 +411,8 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-bold mb-1">{story.title}</h3>
-                  <p className="text-sm opacity-90">{story.subtitle}</p>
+                  <p className="text-sm opacity-90 mb-1">{story.subtitle}</p>
+                  <h3 className="text-2xl font-bold">{story.title}</h3>
                 </div>
                 <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Icon name="ArrowRight" size={20} className="text-white" />
