@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -129,6 +129,8 @@ const Index = () => {
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isQuoteFormOpen, setIsQuoteFormOpen] = useState(false);
+  const [projectStories, setProjectStories] = useState<Story[]>(stories);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const promoSlides = [
     {
@@ -143,7 +145,7 @@ const Index = () => {
       id: 2,
       title: 'Новая коллекция 2025',
       subtitle: 'Эксклюзивные модели',
-      description: 'Современный дизайн от европейских брендов',
+      description: '',
       image: 'https://cdn.poehali.dev/files/2cc28647-7196-48de-bfb7-e88c509e23ee.png',
       bgColor: 'from-black/40 to-black/40'
     },
@@ -249,30 +251,76 @@ const Index = () => {
         <section id="projects" className="py-16 px-4 overflow-hidden">
           <div className="container mx-auto">
             <h2 className="text-4xl font-bold text-center mb-12">Наши проекты</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
-              {stories.map((story, idx) => (
+            <div className="grid grid-cols-12 gap-4 max-w-7xl mx-auto">
+              {projectStories.map((story, idx) => (
                 <div
                   key={story.id}
-                  className="relative w-full h-[480px] rounded-3xl overflow-hidden cursor-pointer group animate-fade-in"
+                  className="col-span-12 sm:col-span-6 lg:col-span-3 relative w-full h-[480px] rounded-3xl overflow-hidden group animate-fade-in"
                   style={{ animationDelay: `${idx * 0.15}s` }}
-                  onClick={() => setSelectedStory(story)}
                 >
-                  <img
-                    src={story.image}
-                    alt={story.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <p className="text-sm opacity-90 mb-1">{story.subtitle}</p>
-                    <h3 className="text-2xl font-bold">{story.title}</h3>
+                  <div className="relative w-full h-full cursor-pointer" onClick={() => setSelectedStory(story)}>
+                    <img
+                      src={story.image}
+                      alt={story.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                      <p className="text-sm opacity-90 mb-1">{story.subtitle}</p>
+                      <h3 className="text-2xl font-bold">{story.title}</h3>
+                    </div>
+                    <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Icon name="ArrowRight" size={20} className="text-white" />
+                    </div>
                   </div>
-                  <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Icon name="ArrowRight" size={20} className="text-white" />
-                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setProjectStories(prev => prev.filter(s => s.id !== story.id));
+                    }}
+                    className="absolute top-4 left-4 w-8 h-8 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                    title="Удалить"
+                  >
+                    <Icon name="X" size={16} className="text-white" />
+                  </button>
                 </div>
               ))}
+              <div className="col-span-12 sm:col-span-6 lg:col-span-3 relative w-full h-[480px] rounded-3xl border-2 border-dashed border-primary/30 hover:border-primary/60 transition-colors flex items-center justify-center cursor-pointer group"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/30 transition-colors">
+                    <Icon name="Plus" size={32} className="text-primary" />
+                  </div>
+                  <p className="text-muted-foreground font-medium">Добавить проект</p>
+                </div>
+              </div>
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              onChange={(e) => {
+                const files = Array.from(e.target.files || []);
+                files.forEach((file, idx) => {
+                  const reader = new FileReader();
+                  reader.onload = (event) => {
+                    const newStory: Story = {
+                      id: Date.now() + idx,
+                      title: `Новый проект ${projectStories.length + idx + 1}`,
+                      subtitle: 'проект',
+                      image: event.target?.result as string,
+                      description: '',
+                      gallery: [event.target?.result as string]
+                    };
+                    setProjectStories(prev => [...prev, newStory]);
+                  };
+                  reader.readAsDataURL(file);
+                });
+              }}
+            />
           </div>
         </section>
 
