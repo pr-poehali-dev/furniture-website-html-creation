@@ -295,15 +295,46 @@ const Index = () => {
       </header>
 
       <main className="pt-20">
-        <section id="home" className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-primary/20 to-secondary/20">
-          <div className="text-center max-w-4xl mx-auto animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-primary">
-              Создаем атмосферу вашего дома индивидуально и под заказ
-            </h1>
-            <Button size="lg" onClick={() => scrollToSection('about')} className="text-lg px-8 bg-primary hover:bg-primary/90 text-primary-foreground">
-              Узнать больше
-              <Icon name="ArrowRight" size={20} className="ml-2" />
-            </Button>
+        <section id="home" className="relative h-[600px] overflow-hidden">
+          <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+            {promoSlides.map((slide) => (
+              <div key={slide.id} className="min-w-full h-full relative">
+                <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
+                <div className={`absolute inset-0 bg-gradient-to-r ${slide.bgColor} opacity-80`}></div>
+                <div className="absolute inset-0 flex items-center justify-center text-white text-center px-4">
+                  <div className="max-w-3xl animate-fade-in">
+                    <h2 className="text-5xl md:text-6xl font-bold mb-4">{slide.title}</h2>
+                    <p className="text-2xl md:text-3xl mb-3 opacity-90">{slide.subtitle}</p>
+                    <p className="text-lg md:text-xl opacity-80">{slide.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={() => setCurrentSlide((prev) => (prev - 1 + promoSlides.length) % promoSlides.length)}
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-colors z-10"
+          >
+            <Icon name="ChevronLeft" size={24} className="text-white" />
+          </button>
+          <button
+            onClick={() => setCurrentSlide((prev) => (prev + 1) % promoSlides.length)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-colors z-10"
+          >
+            <Icon name="ChevronRight" size={24} className="text-white" />
+          </button>
+
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+            {promoSlides.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  idx === currentSlide ? 'bg-white w-8' : 'bg-white/50'
+                }`}
+              />
+            ))}
           </div>
         </section>
 
