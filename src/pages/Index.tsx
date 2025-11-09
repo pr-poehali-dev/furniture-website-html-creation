@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, rectSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -6,6 +9,69 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
+
+interface SortableGalleryItemProps {
+  id: string;
+  image: string;
+  title: string;
+  index: number;
+  onDelete: () => void;
+  onView: () => void;
+}
+
+const SortableGalleryItem = ({ id, image, title, index, onDelete, onView }: SortableGalleryItemProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="col-span-12 sm:col-span-6 lg:col-span-4 relative group"
+    >
+      <div
+        {...attributes}
+        {...listeners}
+        className="cursor-move"
+      >
+        <img
+          src={image}
+          alt={`${title} ${index + 1}`}
+          className="w-full h-64 object-cover rounded-2xl"
+          onClick={(e) => {
+            e.stopPropagation();
+            onView();
+          }}
+        />
+      </div>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete();
+        }}
+        className="absolute top-2 right-2 w-8 h-8 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
+        title="Удалить фото"
+      >
+        <Icon name="X" size={16} className="text-white" />
+      </button>
+      <div className="absolute top-2 left-2 w-8 h-8 bg-primary/80 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+        <Icon name="Move" size={16} className="text-white" />
+      </div>
+    </div>
+  );
+};
 
 interface Product {
   id: number;
@@ -78,10 +144,10 @@ const stories: Story[] = [
     id: 1,
     title: 'Кухонный гарнитур',
     subtitle: 'функциональный',
-    image: 'https://cdn.poehali.dev/files/65f68043-a89c-448d-93b0-75b7b4a69d1a.jpg',
+    image: 'https://cdn.poehali.dev/files/b713c9b7-ef81-4ae7-8843-87f7b44b6aaf.png',
     description: 'Эргономичная кухня с продуманным расположением рабочих зон. Современная техника и вместительные системы хранения.',
     gallery: [
-      'https://cdn.poehali.dev/files/65f68043-a89c-448d-93b0-75b7b4a69d1a.jpg',
+      'https://cdn.poehali.dev/files/b713c9b7-ef81-4ae7-8843-87f7b44b6aaf.png',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/38483b66-2a42-45b5-9374-333ec8636aac.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/fa681b9e-9dff-4ba0-8c40-57ffd390bfaf.jpg'
     ]
@@ -90,10 +156,10 @@ const stories: Story[] = [
     id: 2,
     title: 'Шкафы и гардеробные системы',
     subtitle: 'вместительные',
-    image: 'https://cdn.poehali.dev/files/4ae22188-875d-40c3-9b73-08155134051a.jpg',
+    image: 'https://cdn.poehali.dev/files/53cf79e4-33a5-4198-990c-43182b267bbb.png',
     description: 'Минималистичный домашний офис для максимальной концентрации. Эргономичная мебель и достаточное освещение.',
     gallery: [
-      'https://cdn.poehali.dev/files/4ae22188-875d-40c3-9b73-08155134051a.jpg',
+      'https://cdn.poehali.dev/files/53cf79e4-33a5-4198-990c-43182b267bbb.png',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/ad1459a2-41a8-46ae-ab8b-614d2b20fc15.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/42b2eb59-ad71-4307-80ed-47ccb266128b.jpg'
     ]
@@ -132,6 +198,29 @@ const Index = () => {
   const [projectStories, setProjectStories] = useState<Story[]>(stories);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const galleryFileInputRef = useRef<HTMLInputElement>(null);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id && selectedStory) {
+      const oldIndex = selectedStory.gallery.findIndex((_, i) => `gallery-${i}` === active.id);
+      const newIndex = selectedStory.gallery.findIndex((_, i) => `gallery-${i}` === over.id);
+      
+      const newGallery = arrayMove(selectedStory.gallery, oldIndex, newIndex);
+      const updatedStory = { ...selectedStory, gallery: newGallery };
+      
+      setSelectedStory(updatedStory);
+      setProjectStories(prev => prev.map(s => s.id === selectedStory.id ? updatedStory : s));
+    }
+  };
 
   const promoSlides = [
     {
@@ -459,44 +548,43 @@ const Index = () => {
             </div>
             <div className="p-6 space-y-6">
               <p className="text-lg text-muted-foreground">{selectedStory.description}</p>
-              <div className="grid grid-cols-12 gap-4">
-                {selectedStory.gallery.map((image, idx) => (
-                  <div key={idx} className="col-span-12 sm:col-span-6 lg:col-span-4 relative group">
-                    <img
-                      src={image}
-                      alt={`${selectedStory.title} ${idx + 1}`}
-                      className="w-full h-64 object-cover rounded-2xl"
-                    />
-                    <button
-                      onClick={() => {
-                        const updatedStory = {
-                          ...selectedStory,
-                          gallery: selectedStory.gallery.filter((_, i) => i !== idx)
-                        };
-                        setSelectedStory(updatedStory);
-                        setProjectStories(prev => 
-                          prev.map(s => s.id === selectedStory.id ? updatedStory : s)
-                        );
-                      }}
-                      className="absolute top-2 right-2 w-8 h-8 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                      title="Удалить фото"
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                <SortableContext items={selectedStory.gallery.map((_, i) => `gallery-${i}`)} strategy={rectSortingStrategy}>
+                  <div className="grid grid-cols-12 gap-4">
+                    {selectedStory.gallery.map((image, idx) => (
+                      <SortableGalleryItem
+                        key={`gallery-${idx}`}
+                        id={`gallery-${idx}`}
+                        image={image}
+                        title={selectedStory.title}
+                        index={idx}
+                        onDelete={() => {
+                          const updatedStory = {
+                            ...selectedStory,
+                            gallery: selectedStory.gallery.filter((_, i) => i !== idx)
+                          };
+                          setSelectedStory(updatedStory);
+                          setProjectStories(prev => 
+                            prev.map(s => s.id === selectedStory.id ? updatedStory : s)
+                          );
+                        }}
+                        onView={() => setLightboxImage(image)}
+                      />
+                    ))}
+                    <div 
+                      className="col-span-12 sm:col-span-6 lg:col-span-4 h-64 rounded-2xl border-2 border-dashed border-primary/30 hover:border-primary/60 transition-colors flex items-center justify-center cursor-pointer group"
+                      onClick={() => galleryFileInputRef.current?.click()}
                     >
-                      <Icon name="X" size={16} className="text-white" />
-                    </button>
-                  </div>
-                ))}
-                <div 
-                  className="col-span-12 sm:col-span-6 lg:col-span-4 h-64 rounded-2xl border-2 border-dashed border-primary/30 hover:border-primary/60 transition-colors flex items-center justify-center cursor-pointer group"
-                  onClick={() => galleryFileInputRef.current?.click()}
-                >
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/30 transition-colors">
-                      <Icon name="Plus" size={24} className="text-primary" />
+                      <div className="text-center">
+                        <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/30 transition-colors">
+                          <Icon name="Plus" size={24} className="text-primary" />
+                        </div>
+                        <p className="text-sm text-muted-foreground font-medium">Добавить фото</p>
+                      </div>
                     </div>
-                    <p className="text-sm text-muted-foreground font-medium">Добавить фото</p>
                   </div>
-                </div>
-              </div>
+                </SortableContext>
+              </DndContext>
               <input
                 ref={galleryFileInputRef}
                 type="file"
@@ -524,6 +612,26 @@ const Index = () => {
               />
             </div>
           </div>
+        </div>
+      )}
+
+      {lightboxImage && (
+        <div
+          className="fixed inset-0 bg-black/95 z-[60] flex items-center justify-center p-4 animate-fade-in"
+          onClick={() => setLightboxImage(null)}
+        >
+          <button
+            className="absolute top-4 right-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+            onClick={() => setLightboxImage(null)}
+          >
+            <Icon name="X" size={24} className="text-white" />
+          </button>
+          <img
+            src={lightboxImage}
+            alt="Просмотр"
+            className="max-w-full max-h-[90vh] object-contain rounded-lg animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
       )}
 
