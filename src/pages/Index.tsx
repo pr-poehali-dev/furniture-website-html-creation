@@ -125,10 +125,10 @@ const stories: Story[] = [
 ];
 
 const Index = () => {
-  const [cart, setCart] = useState<CartItem[]>([]);
   const [activeSection, setActiveSection] = useState('home');
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isQuoteFormOpen, setIsQuoteFormOpen] = useState(false);
 
   const promoSlides = [
     {
@@ -164,36 +164,7 @@ const Index = () => {
     return () => clearInterval(timer);
   }, [promoSlides.length]);
 
-  const addToCart = (product: Product) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
-      if (existing) {
-        return prev.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-  };
 
-  const removeFromCart = (productId: number) => {
-    setCart(prev => prev.filter(item => item.id !== productId));
-  };
-
-  const updateQuantity = (productId: number, delta: number) => {
-    setCart(prev =>
-      prev.map(item =>
-        item.id === productId
-          ? { ...item, quantity: Math.max(0, item.quantity + delta) }
-          : item
-      ).filter(item => item.quantity > 0)
-    );
-  };
-
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -206,7 +177,9 @@ const Index = () => {
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/20">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-primary">TRIKC</div>
+            <div className="flex items-center gap-3">
+              <img src="https://cdn.poehali.dev/files/f8197fb7-59b5-4272-ab12-b30b3a10386a.png" alt="TRIKC" className="h-12 w-auto" />
+            </div>
             
             <nav className="hidden md:flex gap-8">
               {['Главная', 'О нас', 'Контакты'].map((item, idx) => (
@@ -220,76 +193,10 @@ const Index = () => {
               ))}
             </nav>
 
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="relative border-primary/20 hover:bg-primary/10">
-                  <Icon name="ShoppingCart" size={20} />
-                  {totalItems > 0 && (
-                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
-                      {totalItems}
-                    </span>
-                  )}
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Корзина</SheetTitle>
-                </SheetHeader>
-                <div className="mt-8 space-y-4">
-                  {cart.length === 0 ? (
-                    <p className="text-center text-muted-foreground py-8">Корзина пуста</p>
-                  ) : (
-                    <>
-                      {cart.map(item => (
-                        <div key={item.id} className="flex gap-4 pb-4 border-b">
-                          <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded" />
-                          <div className="flex-1">
-                            <h4 className="font-medium">{item.name}</h4>
-                            <p className="text-sm text-muted-foreground">{item.price.toLocaleString('ru-RU')} ₽</p>
-                            <div className="flex items-center gap-2 mt-2">
-                              <Button
-                                size="icon"
-                                variant="outline"
-                                className="h-6 w-6"
-                                onClick={() => updateQuantity(item.id, -1)}
-                              >
-                                <Icon name="Minus" size={12} />
-                              </Button>
-                              <span className="text-sm font-medium">{item.quantity}</span>
-                              <Button
-                                size="icon"
-                                variant="outline"
-                                className="h-6 w-6"
-                                onClick={() => updateQuantity(item.id, 1)}
-                              >
-                                <Icon name="Plus" size={12} />
-                              </Button>
-                              <Button
-                                size="icon"
-                                variant="ghost"
-                                className="h-6 w-6 ml-auto"
-                                onClick={() => removeFromCart(item.id)}
-                              >
-                                <Icon name="X" size={12} />
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                      <div className="pt-4 space-y-4">
-                        <div className="flex justify-between text-lg font-bold">
-                          <span>Итого:</span>
-                          <span>{totalPrice.toLocaleString('ru-RU')} ₽</span>
-                        </div>
-                        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="lg">
-                          Оформить заказ
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </SheetContent>
-            </Sheet>
+            <Button onClick={() => setIsQuoteFormOpen(true)} className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+              <Icon name="Calculator" size={20} className="mr-2" />
+              Заявка на просчет
+            </Button>
           </div>
         </div>
       </header>
@@ -522,6 +429,53 @@ const Index = () => {
           <p>© 2024 TRIKC. Все права защищены.</p>
         </div>
       </footer>
+
+      {isQuoteFormOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 animate-fade-in"
+          onClick={() => setIsQuoteFormOpen(false)}
+        >
+          <Card
+            className="max-w-md w-full animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold">Заявка на просчет</h3>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsQuoteFormOpen(false)}
+                >
+                  <Icon name="X" size={24} />
+                </Button>
+              </div>
+              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <div>
+                  <label htmlFor="quote-name" className="block text-sm font-medium mb-2">Ваше имя</label>
+                  <Input id="quote-name" placeholder="Иван Иванов" className="bg-background" />
+                </div>
+                <div>
+                  <label htmlFor="quote-phone" className="block text-sm font-medium mb-2">Телефон</label>
+                  <Input id="quote-phone" type="tel" placeholder="+7 (999) 123-45-67" className="bg-background" />
+                </div>
+                <div>
+                  <label htmlFor="quote-email" className="block text-sm font-medium mb-2">Email (необязательно)</label>
+                  <Input id="quote-email" type="email" placeholder="example@mail.ru" className="bg-background" />
+                </div>
+                <div>
+                  <label htmlFor="quote-project" className="block text-sm font-medium mb-2">Описание проекта</label>
+                  <Textarea id="quote-project" placeholder="Опишите, что вы хотите заказать..." rows={4} className="bg-background" />
+                </div>
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="lg">
+                  <Icon name="Send" size={20} className="mr-2" />
+                  Отправить заявку
+                </Button>
+              </form>
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };
