@@ -688,15 +688,31 @@ const Index = () => {
 
                   setFormStatus('sending');
                   
-                  const mailtoLink = `mailto:trixmebel@yandex.ru?subject=Заявка с сайта от ${encodeURIComponent(formData.name)}&body=Имя: ${encodeURIComponent(formData.name)}%0D%0AТелефон: ${encodeURIComponent(formData.phone)}%0D%0AEmail: ${encodeURIComponent(formData.email || 'не указан')}%0D%0A%0D%0AСообщение:%0D%0A${encodeURIComponent(formData.message)}`;
-                  
-                  window.location.href = mailtoLink;
-                  
-                  setTimeout(() => {
-                    setFormStatus('success');
-                    setFormData({ name: '', phone: '', email: '', message: '' });
+                  try {
+                    const response = await fetch('https://functions.poehali.dev/3eb8be31-b25b-488f-92fc-626d7d9d4fdf', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                      setFormStatus('success');
+                      setFormData({ name: '', phone: '', email: '', message: '' });
+                      setTimeout(() => setFormStatus('idle'), 3000);
+                    } else {
+                      setFormStatus('error');
+                      alert(data.error || 'Ошибка отправки заявки. Попробуйте позже.');
+                      setTimeout(() => setFormStatus('idle'), 3000);
+                    }
+                  } catch (error) {
+                    setFormStatus('error');
+                    alert('Ошибка отправки заявки. Попробуйте позже.');
                     setTimeout(() => setFormStatus('idle'), 3000);
-                  }, 500);
+                  }
                 }}>
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-2">Ваше имя *</label>
