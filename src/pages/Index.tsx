@@ -174,29 +174,32 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/20">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <img src="https://cdn.poehali.dev/files/f8197fb7-59b5-4272-ab12-b30b3a10386a.png" alt="TRIKC" className="h-12 w-auto" />
-            </div>
-            
-            <nav className="hidden md:flex gap-8">
-              {['Главная', 'О нас', 'Контакты'].map((item, idx) => (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(['home', 'about', 'contacts'][idx])}
-                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                >
-                  {item}
-                </button>
-              ))}
-            </nav>
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-primary/20">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1a4d2e] via-[#2d5f3f] to-background"></div>
+          <div className="container mx-auto px-4 py-2 relative">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3 py-2">
+                <img src="https://cdn.poehali.dev/files/f8197fb7-59b5-4272-ab12-b30b3a10386a.png" alt="TRIKC" className="h-20 w-auto" />
+              </div>
+              
+              <nav className="hidden md:flex gap-8">
+                {['Главная', 'Наши проекты', 'О нас', 'Контакты'].map((item, idx) => (
+                  <button
+                    key={item}
+                    onClick={() => scrollToSection(['home', 'projects', 'about', 'contacts'][idx])}
+                    className="text-sm font-medium text-white/90 hover:text-white transition-colors"
+                  >
+                    {item}
+                  </button>
+                ))}
+              </nav>
 
-            <Button onClick={() => setIsQuoteFormOpen(true)} className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
-              <Icon name="Calculator" size={20} className="mr-2" />
-              Заявка на просчет
-            </Button>
+              <Button onClick={() => setIsQuoteFormOpen(true)} className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+                <Icon name="Calculator" size={20} className="mr-2" />
+                Заявка на просчет
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -245,7 +248,37 @@ const Index = () => {
           </div>
         </section>
 
-        <section id="about" className="py-16 px-4">
+        <section id="projects" className="py-16 px-4 overflow-hidden">
+          <div className="container mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-12">Наши проекты</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
+              {stories.map((story, idx) => (
+                <div
+                  key={story.id}
+                  className="relative w-full h-[480px] rounded-3xl overflow-hidden cursor-pointer group animate-fade-in"
+                  style={{ animationDelay: `${idx * 0.15}s` }}
+                  onClick={() => setSelectedStory(story)}
+                >
+                  <img
+                    src={story.image}
+                    alt={story.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <p className="text-sm opacity-90 mb-1">{story.subtitle}</p>
+                    <h3 className="text-2xl font-bold">{story.title}</h3>
+                  </div>
+                  <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Icon name="ArrowRight" size={20} className="text-white" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="about" className="py-16 px-4 bg-muted/30">
           <div className="container mx-auto max-w-4xl">
             <h2 className="text-4xl font-bold text-center mb-8">О нас</h2>
             
@@ -283,36 +316,6 @@ const Index = () => {
                 <h3 className="text-xl font-semibold mb-2">Гарантия</h3>
                 <p className="text-muted-foreground">2 года гарантии на всю мебель</p>
               </Card>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 px-4 overflow-hidden">
-          <div className="container mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-12">Наши проекты</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
-              {stories.map((story, idx) => (
-                <div
-                  key={story.id}
-                  className="relative w-full h-[480px] rounded-3xl overflow-hidden cursor-pointer group animate-fade-in"
-                  style={{ animationDelay: `${idx * 0.15}s` }}
-                  onClick={() => setSelectedStory(story)}
-                >
-                  <img
-                    src={story.image}
-                    alt={story.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <p className="text-sm opacity-90 mb-1">{story.subtitle}</p>
-                    <h3 className="text-2xl font-bold">{story.title}</h3>
-                  </div>
-                  <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Icon name="ArrowRight" size={20} className="text-white" />
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </section>
