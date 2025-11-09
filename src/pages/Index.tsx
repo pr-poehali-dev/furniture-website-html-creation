@@ -209,10 +209,10 @@ const Index = () => {
             <div className="text-2xl font-bold text-primary">TRIKC</div>
             
             <nav className="hidden md:flex gap-8">
-              {['Главная', 'Каталог', 'О нас', 'Доставка', 'Контакты'].map((item, idx) => (
+              {['Главная', 'Каталог', 'О нас', 'Контакты'].map((item, idx) => (
                 <button
                   key={item}
-                  onClick={() => scrollToSection(['home', 'catalog', 'about', 'delivery', 'contacts'][idx])}
+                  onClick={() => scrollToSection(['home', 'catalog', 'about', 'contacts'][idx])}
                   className="text-sm font-medium text-foreground hover:text-primary transition-colors"
                 >
                   {item}
@@ -456,68 +456,6 @@ const Index = () => {
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Гарантия</h3>
                 <p className="text-muted-foreground">2 года гарантии на всю мебель</p>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        <section id="delivery" className="py-16 px-4 bg-muted/30">
-          <div className="container mx-auto max-w-4xl">
-            <h2 className="text-4xl font-bold text-center mb-12">Доставка и оплата</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="p-8 bg-card border-primary/20">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Truck" size={24} className="text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Доставка</h3>
-                    <p className="text-muted-foreground mb-4">
-                      Бесплатная доставка по городу при заказе от 10 000 ₽. Доставка в регионы рассчитывается индивидуально.
-                    </p>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-primary" />
-                        Доставка по городу 1-2 дня
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-primary" />
-                        Подъём на этаж включен
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-primary" />
-                        Сборка мебели
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </Card>
-              <Card className="p-8 bg-card border-primary/20">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="CreditCard" size={24} className="text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Оплата</h3>
-                    <p className="text-muted-foreground mb-4">
-                      Принимаем любые формы оплаты: наличные, карты, безналичный расчёт для юридических лиц.
-                    </p>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-primary" />
-                        Оплата при получении
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-primary" />
-                        Банковские карты
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-primary" />
-                        Безналичный расчёт
-                      </li>
-                    </ul>
-                  </div>
-                </div>
               </Card>
             </div>
           </div>
