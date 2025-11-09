@@ -174,37 +174,35 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-primary/20">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1a4d2e] via-[#2d5f3f] to-background"></div>
-          <div className="container mx-auto px-4 py-2 relative">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3 py-2">
-                <img src="https://cdn.poehali.dev/files/f8197fb7-59b5-4272-ab12-b30b3a10386a.png" alt="TRIKC" className="h-20 w-auto" />
-              </div>
-              
-              <nav className="hidden md:flex gap-8">
-                {['Главная', 'Наши проекты', 'О нас', 'Контакты'].map((item, idx) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(['home', 'projects', 'about', 'contacts'][idx])}
-                    className="text-sm font-medium text-white/90 hover:text-white transition-colors"
-                  >
-                    {item}
-                  </button>
-                ))}
-              </nav>
-
-              <Button onClick={() => setIsQuoteFormOpen(true)} className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
-                <Icon name="Calculator" size={20} className="mr-2" />
-                Заявка на просчет
-              </Button>
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-primary/20 bg-background">
+        <div className="container mx-auto px-4 relative">
+          <div className="flex items-center justify-between">
+            <div className="relative flex items-center">
+              <div className="absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-[#1a4d2e] via-[#2d5f3f] to-transparent" style={{width: '300px', left: '-20px'}}></div>
+              <img src="https://cdn.poehali.dev/files/f8197fb7-59b5-4272-ab12-b30b3a10386a.png" alt="TRIKC" className="h-24 w-auto relative z-10" />
             </div>
+            
+            <nav className="hidden md:flex gap-8">
+              {['Главная', 'Наши проекты', 'О нас', 'Контакты'].map((item, idx) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(['home', 'projects', 'about', 'contacts'][idx])}
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  {item}
+                </button>
+              ))}
+            </nav>
+
+            <Button onClick={() => setIsQuoteFormOpen(true)} className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-lg hover:shadow-xl transition-all duration-300">
+              <Icon name="Calculator" size={20} className="mr-2" />
+              Отправить на просчет
+            </Button>
           </div>
         </div>
       </header>
 
-      <main className="pt-20">
+      <main className="pt-24">
         <section id="home" className="relative h-[600px] overflow-hidden">
           <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
             {promoSlides.map((slide) => (
