@@ -503,6 +503,23 @@ const Index = () => {
                   {selectedStory.description}
                 </p>
 
+                <div className="mb-8">
+                  <Button
+                    size="lg"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedStory(null);
+                      setTimeout(() => {
+                        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                      }, 300);
+                    }}
+                  >
+                    <Icon name="Calculator" size={24} className="mr-2" />
+                    Рассчитать стоимость
+                  </Button>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {selectedStory.gallery.map((image, idx) => (
                     <div
