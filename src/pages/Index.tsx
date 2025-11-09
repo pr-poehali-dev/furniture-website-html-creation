@@ -78,10 +78,10 @@ const stories: Story[] = [
     id: 1,
     title: 'Кухонный гарнитур',
     subtitle: 'функциональный',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6adb0841-9b97-4834-91ae-99aa6cc2dd1d.jpg',
+    image: 'https://cdn.poehali.dev/files/65f68043-a89c-448d-93b0-75b7b4a69d1a.jpg',
     description: 'Эргономичная кухня с продуманным расположением рабочих зон. Современная техника и вместительные системы хранения.',
     gallery: [
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6adb0841-9b97-4834-91ae-99aa6cc2dd1d.jpg',
+      'https://cdn.poehali.dev/files/65f68043-a89c-448d-93b0-75b7b4a69d1a.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/38483b66-2a42-45b5-9374-333ec8636aac.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/fa681b9e-9dff-4ba0-8c40-57ffd390bfaf.jpg'
     ]
@@ -90,10 +90,10 @@ const stories: Story[] = [
     id: 2,
     title: 'Шкафы и гардеробные системы',
     subtitle: 'вместительные',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6feb2e9b-2fc7-436e-aeb1-978d960caf5f.jpg',
+    image: 'https://cdn.poehali.dev/files/4ae22188-875d-40c3-9b73-08155134051a.jpg',
     description: 'Минималистичный домашний офис для максимальной концентрации. Эргономичная мебель и достаточное освещение.',
     gallery: [
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/6feb2e9b-2fc7-436e-aeb1-978d960caf5f.jpg',
+      'https://cdn.poehali.dev/files/4ae22188-875d-40c3-9b73-08155134051a.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/ad1459a2-41a8-46ae-ab8b-614d2b20fc15.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/42b2eb59-ad71-4307-80ed-47ccb266128b.jpg'
     ]
@@ -102,10 +102,10 @@ const stories: Story[] = [
     id: 3,
     title: 'Детская комната',
     subtitle: 'уютная',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg',
+    image: 'https://cdn.poehali.dev/files/30ed0be3-b1e7-41c5-8d80-7d6920b4c270.png',
     description: 'Современный дизайн гостиной с акцентом на комфорт и функциональность. Натуральные материалы и светлые тона создают уютную атмосферу.',
     gallery: [
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4208e114-ffdc-4558-8eba-59234eeb47ed.jpg',
+      'https://cdn.poehali.dev/files/30ed0be3-b1e7-41c5-8d80-7d6920b4c270.png',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/f359dffc-e9df-4c3b-8b5d-f871c009eba2.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/e28f76be-d1d6-4e11-847e-6cb48c34ead9.jpg'
     ]
@@ -114,10 +114,10 @@ const stories: Story[] = [
     id: 4,
     title: 'Мягкая мебель',
     subtitle: 'комфортная',
-    image: 'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg',
+    image: 'https://cdn.poehali.dev/files/5e979b24-4a17-497c-9aaa-7f8456f371e9.png',
     description: 'Спокойная спальня в нейтральных тонах. Мягкое освещение и качественный текстиль для идеального отдыха.',
     gallery: [
-      'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/5887df7f-45d9-43f3-b744-9f6ae0a483a0.jpg',
+      'https://cdn.poehali.dev/files/5e979b24-4a17-497c-9aaa-7f8456f371e9.png',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/4ccf0b9c-2db0-4dbd-8e32-e9d0c382a367.jpg',
       'https://cdn.poehali.dev/projects/1d2e3d0d-e9ac-43c9-866f-3f6d6d5fba60/files/b9ee5a97-d10e-42d5-8f18-2cdb4ed0996d.jpg'
     ]
@@ -131,6 +131,7 @@ const Index = () => {
   const [isQuoteFormOpen, setIsQuoteFormOpen] = useState(false);
   const [projectStories, setProjectStories] = useState<Story[]>(stories);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const galleryFileInputRef = useRef<HTMLInputElement>(null);
 
   const promoSlides = [
     {
@@ -458,16 +459,69 @@ const Index = () => {
             </div>
             <div className="p-6 space-y-6">
               <p className="text-lg text-muted-foreground">{selectedStory.description}</p>
-              <div className="grid gap-4">
+              <div className="grid grid-cols-12 gap-4">
                 {selectedStory.gallery.map((image, idx) => (
-                  <img
-                    key={idx}
-                    src={image}
-                    alt={`${selectedStory.title} ${idx + 1}`}
-                    className="w-full rounded-2xl"
-                  />
+                  <div key={idx} className="col-span-12 sm:col-span-6 lg:col-span-4 relative group">
+                    <img
+                      src={image}
+                      alt={`${selectedStory.title} ${idx + 1}`}
+                      className="w-full h-64 object-cover rounded-2xl"
+                    />
+                    <button
+                      onClick={() => {
+                        const updatedStory = {
+                          ...selectedStory,
+                          gallery: selectedStory.gallery.filter((_, i) => i !== idx)
+                        };
+                        setSelectedStory(updatedStory);
+                        setProjectStories(prev => 
+                          prev.map(s => s.id === selectedStory.id ? updatedStory : s)
+                        );
+                      }}
+                      className="absolute top-2 right-2 w-8 h-8 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      title="Удалить фото"
+                    >
+                      <Icon name="X" size={16} className="text-white" />
+                    </button>
+                  </div>
                 ))}
+                <div 
+                  className="col-span-12 sm:col-span-6 lg:col-span-4 h-64 rounded-2xl border-2 border-dashed border-primary/30 hover:border-primary/60 transition-colors flex items-center justify-center cursor-pointer group"
+                  onClick={() => galleryFileInputRef.current?.click()}
+                >
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/30 transition-colors">
+                      <Icon name="Plus" size={24} className="text-primary" />
+                    </div>
+                    <p className="text-sm text-muted-foreground font-medium">Добавить фото</p>
+                  </div>
+                </div>
               </div>
+              <input
+                ref={galleryFileInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={(e) => {
+                  const files = Array.from(e.target.files || []);
+                  files.forEach((file) => {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                      const newImage = event.target?.result as string;
+                      const updatedStory = {
+                        ...selectedStory,
+                        gallery: [...selectedStory.gallery, newImage]
+                      };
+                      setSelectedStory(updatedStory);
+                      setProjectStories(prev => 
+                        prev.map(s => s.id === selectedStory.id ? updatedStory : s)
+                      );
+                    };
+                    reader.readAsDataURL(file);
+                  });
+                }}
+              />
             </div>
           </div>
         </div>
