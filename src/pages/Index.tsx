@@ -202,6 +202,9 @@ const Index = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number>(0);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingElement, setEditingElement] = useState<string | null>(null);
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' });
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [texts, setTexts] = useState({
     heroTitle: 'Создаем атмосферу вашего дома',
     heroSubtitle: 'индивидуально и под заказ',
@@ -421,7 +424,7 @@ const Index = () => {
                   <div className="max-w-3xl animate-fade-in">
                     {slide.id === 1 ? (
                       <>
-                        <EditableText textKey="heroTitle" tag="h2" className="text-5xl md:text-6xl font-bold mb-4">
+                        <EditableText textKey="heroTitle" tag="h1" className="text-5xl md:text-6xl font-bold mb-4">
                           {texts.heroTitle}
                         </EditableText>
                         <EditableText textKey="heroSubtitle" tag="p" className="text-2xl md:text-3xl mb-3 opacity-90">
@@ -648,10 +651,12 @@ const Index = () => {
                     </div>
                   </div>
                   <div className="mt-8">
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="lg">
-                      <Icon name="MessageCircle" size={20} className="mr-2" />
-                      Написать в WhatsApp
-                    </Button>
+                    <a href="https://wa.me/79253129492" target="_blank" rel="noopener noreferrer" className="block">
+                      <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="lg">
+                        <Icon name="MessageCircle" size={20} className="mr-2" />
+                        Написать в WhatsApp
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </Card>
@@ -659,25 +664,104 @@ const Index = () => {
                 <EditableText textKey="formTitle" tag="h3" className="text-2xl font-semibold mb-6">
                   {texts.formTitle}
                 </EditableText>
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-4" onSubmit={async (e) => {
+                  e.preventDefault();
+                  
+                  if (!formData.name || !formData.phone) {
+                    alert('Пожалуйста, заполните имя и телефон');
+                    return;
+                  }
+
+                  const phoneRegex = /^[\d\s\+\-\(\)]{10,}$/;
+                  if (!phoneRegex.test(formData.phone)) {
+                    alert('Пожалуйста, введите корректный номер телефона');
+                    return;
+                  }
+
+                  if (formData.email) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(formData.email)) {
+                      alert('Пожалуйста, введите корректный email');
+                      return;
+                    }
+                  }
+
+                  setFormStatus('sending');
+                  
+                  const mailtoLink = `mailto:trixmebel@yandex.ru?subject=Заявка с сайта от ${encodeURIComponent(formData.name)}&body=Имя: ${encodeURIComponent(formData.name)}%0D%0AТелефон: ${encodeURIComponent(formData.phone)}%0D%0AEmail: ${encodeURIComponent(formData.email || 'не указан')}%0D%0A%0D%0AСообщение:%0D%0A${encodeURIComponent(formData.message)}`;
+                  
+                  window.location.href = mailtoLink;
+                  
+                  setTimeout(() => {
+                    setFormStatus('success');
+                    setFormData({ name: '', phone: '', email: '', message: '' });
+                    setTimeout(() => setFormStatus('idle'), 3000);
+                  }, 500);
+                }}>
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium mb-2">Ваше имя</label>
-                    <Input id="name" placeholder="Иван Иванов" className="bg-background border-primary/20" />
+                    <label htmlFor="name" className="block text-sm font-medium mb-2">Ваше имя *</label>
+                    <Input 
+                      id="name" 
+                      value={formData.name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      placeholder="Иван Иванов" 
+                      className="bg-background border-primary/20"
+                      required
+                    />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium mb-2">Телефон</label>
-                    <Input id="phone" type="tel" placeholder="+7 (999) 123-45-67" className="bg-background border-primary/20" />
+                    <label htmlFor="phone" className="block text-sm font-medium mb-2">Телефон *</label>
+                    <Input 
+                      id="phone" 
+                      type="tel" 
+                      value={formData.phone}
+                      onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                      placeholder="+7 (999) 123-45-67" 
+                      className="bg-background border-primary/20"
+                      required
+                    />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium mb-2">Email (необязательно)</label>
-                    <Input id="email" type="email" placeholder="example@mail.ru" className="bg-background border-primary/20" />
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      value={formData.email}
+                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                      placeholder="example@mail.ru" 
+                      className="bg-background border-primary/20"
+                    />
                   </div>
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium mb-2">Сообщение</label>
-                    <Textarea id="message" placeholder="Расскажите о вашем проекте..." rows={4} className="bg-background border-primary/20" />
+                    <Textarea 
+                      id="message" 
+                      value={formData.message}
+                      onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                      placeholder="Расскажите о вашем проекте..." 
+                      rows={4} 
+                      className="bg-background border-primary/20"
+                    />
                   </div>
-                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="lg">
-                    Отправить заявку
+                  <p className="text-xs text-muted-foreground">
+                    Нажимая кнопку, вы соглашаетесь с{' '}
+                    <button 
+                      type="button"
+                      onClick={() => setIsPrivacyOpen(true)}
+                      className="text-primary hover:underline"
+                    >
+                      политикой конфиденциальности
+                    </button>
+                  </p>
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
+                    size="lg"
+                    disabled={formStatus === 'sending'}
+                  >
+                    {formStatus === 'sending' && <Icon name="Loader2" size={20} className="mr-2 animate-spin" />}
+                    {formStatus === 'success' && <Icon name="Check" size={20} className="mr-2" />}
+                    {formStatus === 'sending' ? 'Отправка...' : formStatus === 'success' ? 'Отправлено!' : 'Отправить заявку'}
                   </Button>
                 </form>
               </Card>
@@ -828,6 +912,14 @@ const Index = () => {
           <EditableText textKey="footerText" tag="p">
             {texts.footerText}
           </EditableText>
+          <div className="mt-4 flex justify-center gap-4">
+            <button 
+              onClick={() => setIsPrivacyOpen(true)}
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              Политика конфиденциальности
+            </button>
+          </div>
         </div>
       </footer>
 
@@ -873,6 +965,95 @@ const Index = () => {
                   Отправить заявку
                 </Button>
               </form>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {isPrivacyOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 animate-fade-in overflow-y-auto"
+          onClick={() => setIsPrivacyOpen(false)}
+        >
+          <Card
+            className="max-w-3xl w-full my-8 animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold">Политика конфиденциальности</h3>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsPrivacyOpen(false)}
+                >
+                  <Icon name="X" size={24} />
+                </Button>
+              </div>
+              <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-2">
+                <p className="font-semibold text-foreground">Дата публикации: 09.11.2025</p>
+                
+                <section>
+                  <h4 className="font-semibold text-foreground mb-2">1. Общие положения</h4>
+                  <p>Настоящая Политика конфиденциальности персональных данных (далее — Политика) действует в отношении всей информации, которую TRIKC может получить о пользователе во время использования данного сайта.</p>
+                </section>
+
+                <section>
+                  <h4 className="font-semibold text-foreground mb-2">2. Какие данные мы собираем</h4>
+                  <p>При заполнении формы на сайте мы собираем следующие данные:</p>
+                  <ul className="list-disc pl-5 mt-2 space-y-1">
+                    <li>Имя</li>
+                    <li>Номер телефона</li>
+                    <li>Email-адрес (по желанию)</li>
+                    <li>Текст сообщения</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h4 className="font-semibold text-foreground mb-2">3. Цели сбора данных</h4>
+                  <p>Мы используем ваши персональные данные для:</p>
+                  <ul className="list-disc pl-5 mt-2 space-y-1">
+                    <li>Обработки ваших запросов и заявок</li>
+                    <li>Связи с вами по вопросам производства мебели</li>
+                    <li>Предоставления консультаций и просчетов</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h4 className="font-semibold text-foreground mb-2">4. Защита данных</h4>
+                  <p>Мы принимаем необходимые меры для защиты ваших персональных данных от несанкционированного доступа, изменения, раскрытия или уничтожения. Ваши данные не передаются третьим лицам.</p>
+                </section>
+
+                <section>
+                  <h4 className="font-semibold text-foreground mb-2">5. Хранение данных</h4>
+                  <p>Персональные данные хранятся в течение времени, необходимого для достижения целей их обработки, или в течение срока, установленного законодательством.</p>
+                </section>
+
+                <section>
+                  <h4 className="font-semibold text-foreground mb-2">6. Ваши права</h4>
+                  <p>Вы имеете право:</p>
+                  <ul className="list-disc pl-5 mt-2 space-y-1">
+                    <li>Получать информацию о хранящихся о вас персональных данных</li>
+                    <li>Требовать исправления неточных данных</li>
+                    <li>Требовать удаления ваших данных</li>
+                    <li>Отозвать согласие на обработку данных</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h4 className="font-semibold text-foreground mb-2">7. Контакты</h4>
+                  <p>По всем вопросам, связанным с обработкой персональных данных, вы можете связаться с нами:</p>
+                  <ul className="list-none mt-2 space-y-1">
+                    <li>Телефон: <a href="tel:+79253129492" className="text-primary hover:underline">8(925) 312-94-92</a></li>
+                    <li>Email: <a href="mailto:trixmebel@yandex.ru" className="text-primary hover:underline">trixmebel@yandex.ru</a></li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h4 className="font-semibold text-foreground mb-2">8. Изменения Политики</h4>
+                  <p>Мы оставляем за собой право вносить изменения в данную Политику. При внесении изменений дата последней редакции указывается в начале документа.</p>
+                </section>
+              </div>
             </div>
           </Card>
         </div>
