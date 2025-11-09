@@ -199,6 +199,27 @@ const Index = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const galleryFileInputRef = useRef<HTMLInputElement>(null);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number>(0);
+  
+  const openLightbox = (image: string, gallery: string[]) => {
+    setLightboxImage(image);
+    setLightboxIndex(gallery.indexOf(image));
+  };
+  
+  const navigateLightbox = (direction: 'prev' | 'next') => {
+    if (!selectedStory) return;
+    const gallery = selectedStory.gallery;
+    let newIndex = lightboxIndex;
+    
+    if (direction === 'next') {
+      newIndex = (lightboxIndex + 1) % gallery.length;
+    } else {
+      newIndex = (lightboxIndex - 1 + gallery.length) % gallery.length;
+    }
+    
+    setLightboxIndex(newIndex);
+    setLightboxImage(gallery[newIndex]);
+  };
   
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -206,6 +227,23 @@ const Index = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+  
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxImage) return;
+      
+      if (e.key === 'ArrowLeft') {
+        navigateLightbox('prev');
+      } else if (e.key === 'ArrowRight') {
+        navigateLightbox('next');
+      } else if (e.key === 'Escape') {
+        setLightboxImage(null);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxImage, lightboxIndex]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -568,7 +606,7 @@ const Index = () => {
                             prev.map(s => s.id === selectedStory.id ? updatedStory : s)
                           );
                         }}
-                        onView={() => setLightboxImage(image)}
+                        onView={() => openLightbox(image, selectedStory.gallery)}
                       />
                     ))}
                     <div 
@@ -615,23 +653,52 @@ const Index = () => {
         </div>
       )}
 
-      {lightboxImage && (
+      {lightboxImage && selectedStory && (
         <div
           className="fixed inset-0 bg-black/95 z-[60] flex items-center justify-center p-4 animate-fade-in"
           onClick={() => setLightboxImage(null)}
         >
           <button
-            className="absolute top-4 right-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+            className="absolute top-4 right-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-20"
             onClick={() => setLightboxImage(null)}
           >
             <Icon name="X" size={24} className="text-white" />
           </button>
-          <img
-            src={lightboxImage}
-            alt="Просмотр"
-            className="max-w-full max-h-[90vh] object-contain rounded-lg animate-scale-in"
-            onClick={(e) => e.stopPropagation()}
-          />
+          
+          {selectedStory.gallery.length > 1 && (
+            <>
+              <button
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateLightbox('prev');
+                }}
+              >
+                <Icon name="ChevronLeft" size={24} className="text-white" />
+              </button>
+              <button
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateLightbox('next');
+                }}
+              >
+                <Icon name="ChevronRight" size={24} className="text-white" />
+              </button>
+            </>
+          )}
+          
+          <div className="relative max-w-full max-h-[90vh]">
+            <img
+              src={lightboxImage}
+              alt="Просмотр"
+              className="max-w-full max-h-[90vh] object-contain rounded-lg animate-scale-in"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 px-4 py-2 rounded-full text-white text-sm backdrop-blur-sm">
+              {lightboxIndex + 1} / {selectedStory.gallery.length}
+            </div>
+          </div>
         </div>
       )}
 
