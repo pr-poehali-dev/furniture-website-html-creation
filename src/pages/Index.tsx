@@ -200,6 +200,31 @@ const Index = () => {
   const galleryFileInputRef = useRef<HTMLInputElement>(null);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number>(0);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingElement, setEditingElement] = useState<string | null>(null);
+  const [texts, setTexts] = useState({
+    heroTitle: 'Создаем атмосферу вашего дома',
+    heroSubtitle: 'индивидуально и под заказ',
+    projectsTitle: 'Наши проекты',
+    aboutTitle: 'О нас',
+    aboutHeading: 'Мы создаем комфорт с 2015 года',
+    aboutText1: 'За это время были реализованы самые невероятные дизайнерские задумки и необычные идеи самих клиентов.',
+    aboutText2: 'Производство заточено под изготовление штучных индивидуальных изделий. Поэтому мы можем произвести вашу мебель, в короткие сроки.',
+    aboutQuality: 'Качество',
+    aboutQualityText: 'Только проверенные производители и материалы',
+    aboutDelivery: 'Доставка',
+    aboutDeliveryText: 'Бесплатная доставка по городу от 10 000 ₽',
+    aboutWarranty: 'Гарантия',
+    aboutWarrantyText: '2 года гарантии на всю мебель',
+    contactsTitle: 'Контакты',
+    contactsHeading: 'Свяжитесь с нами',
+    contactPhone: 'Телефон',
+    contactEmail: 'Email',
+    contactSchedule: 'Режим работы',
+    contactScheduleText: 'Пн-Вс: 10:00 - 20:00',
+    formTitle: 'Оставьте заявку',
+    footerText: '© 2024 TRIKC. Все права защищены.'
+  });
   
   const openLightbox = (image: string, gallery: string[]) => {
     setLightboxImage(image);
@@ -258,6 +283,49 @@ const Index = () => {
       setSelectedStory(updatedStory);
       setProjectStories(prev => prev.map(s => s.id === selectedStory.id ? updatedStory : s));
     }
+  };
+
+  const updateText = (key: string, value: string) => {
+    setTexts(prev => ({ ...prev, [key]: value }));
+  };
+
+  const EditableText = ({ textKey, children, className = '', tag = 'span' }: { textKey: string; children: React.ReactNode; className?: string; tag?: string }) => {
+    const isEditing = editingElement === textKey;
+    const Tag = tag as keyof JSX.IntrinsicElements;
+    
+    if (!isEditMode) {
+      return <Tag className={className}>{children}</Tag>;
+    }
+    
+    return (
+      <Tag
+        className={`${className} ${isEditMode ? 'cursor-pointer hover:outline hover:outline-2 hover:outline-secondary/50 transition-all' : ''} ${isEditing ? 'outline outline-2 outline-secondary' : ''}`}
+        onClick={(e) => {
+          if (isEditMode) {
+            e.stopPropagation();
+            setEditingElement(textKey);
+          }
+        }}
+      >
+        {isEditing ? (
+          <input
+            type="text"
+            value={texts[textKey as keyof typeof texts]}
+            onChange={(e) => updateText(textKey, e.target.value)}
+            onBlur={() => setEditingElement(null)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') setEditingElement(null);
+              if (e.key === 'Escape') setEditingElement(null);
+            }}
+            autoFocus
+            className="w-full bg-transparent border-none outline-none"
+            onClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          children
+        )}
+      </Tag>
+    );
   };
 
   const promoSlides = [
@@ -324,10 +392,20 @@ const Index = () => {
               ))}
             </nav>
 
-            <Button onClick={() => setIsQuoteFormOpen(true)} className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-lg hover:shadow-xl transition-all duration-300">
-              <Icon name="Calculator" size={20} className="mr-2" />
-              Отправить на просчет
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                onClick={() => setIsEditMode(!isEditMode)} 
+                variant={isEditMode ? "secondary" : "outline"}
+                size="icon"
+                title={isEditMode ? "Выключить режим редактирования" : "Включить режим редактирования"}
+              >
+                <Icon name={isEditMode ? "Check" : "Edit"} size={20} />
+              </Button>
+              <Button onClick={() => setIsQuoteFormOpen(true)} className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-lg hover:shadow-xl transition-all duration-300">
+                <Icon name="Calculator" size={20} className="mr-2" />
+                Отправить на просчет
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -341,9 +419,22 @@ const Index = () => {
                 <div className={`absolute inset-0 bg-gradient-to-r ${slide.bgColor} opacity-80`}></div>
                 <div className="absolute inset-0 flex items-center justify-center text-white text-center px-4">
                   <div className="max-w-3xl animate-fade-in">
-                    <h2 className="text-5xl md:text-6xl font-bold mb-4">{slide.title}</h2>
-                    <p className="text-2xl md:text-3xl mb-3 opacity-90">{slide.subtitle}</p>
-                    <p className="text-lg md:text-xl opacity-80">{slide.description}</p>
+                    {slide.id === 1 ? (
+                      <>
+                        <EditableText textKey="heroTitle" tag="h2" className="text-5xl md:text-6xl font-bold mb-4">
+                          {texts.heroTitle}
+                        </EditableText>
+                        <EditableText textKey="heroSubtitle" tag="p" className="text-2xl md:text-3xl mb-3 opacity-90">
+                          {texts.heroSubtitle}
+                        </EditableText>
+                      </>
+                    ) : (
+                      <>
+                        <h2 className="text-5xl md:text-6xl font-bold mb-4">{slide.title}</h2>
+                        <p className="text-2xl md:text-3xl mb-3 opacity-90">{slide.subtitle}</p>
+                        <p className="text-lg md:text-xl opacity-80">{slide.description}</p>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -378,7 +469,9 @@ const Index = () => {
 
         <section id="projects" className="py-16 px-4 overflow-hidden">
           <div className="container mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-12">Наши проекты</h2>
+            <EditableText textKey="projectsTitle" tag="h2" className="text-4xl font-bold text-center mb-12">
+              {texts.projectsTitle}
+            </EditableText>
             <div className="grid grid-cols-12 gap-4 max-w-7xl mx-auto">
               {projectStories.map((story, idx) => (
                 <div
@@ -454,18 +547,20 @@ const Index = () => {
 
         <section id="about" className="py-16 px-4 bg-muted/30">
           <div className="container mx-auto max-w-4xl">
-            <h2 className="text-4xl font-bold text-center mb-8">О нас</h2>
+            <EditableText textKey="aboutTitle" tag="h2" className="text-4xl font-bold text-center mb-8">
+              {texts.aboutTitle}
+            </EditableText>
             
             <div className="text-center mb-12 space-y-4">
-              <h3 className="text-2xl font-semibold text-primary">
-                Мы создаем комфорт с 2015 года
-              </h3>
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                За это время были реализованы самые невероятные дизайнерские задумки и необычные идеи самих клиентов.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                Производство заточено под изготовление штучных индивидуальных изделий. Поэтому мы можем произвести вашу мебель, в короткие сроки.
-              </p>
+              <EditableText textKey="aboutHeading" tag="h3" className="text-2xl font-semibold text-primary">
+                {texts.aboutHeading}
+              </EditableText>
+              <EditableText textKey="aboutText1" tag="p" className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+                {texts.aboutText1}
+              </EditableText>
+              <EditableText textKey="aboutText2" tag="p" className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+                {texts.aboutText2}
+              </EditableText>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -473,22 +568,34 @@ const Index = () => {
                 <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Icon name="Award" size={32} className="text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Качество</h3>
-                <p className="text-muted-foreground">Только проверенные производители и материалы</p>
+                <EditableText textKey="aboutQuality" tag="h3" className="text-xl font-semibold mb-2">
+                  {texts.aboutQuality}
+                </EditableText>
+                <EditableText textKey="aboutQualityText" tag="p" className="text-muted-foreground">
+                  {texts.aboutQualityText}
+                </EditableText>
               </Card>
               <Card className="p-6 text-center hover:shadow-lg transition-shadow bg-card border-primary/20">
                 <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Icon name="Truck" size={32} className="text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Доставка</h3>
-                <p className="text-muted-foreground">Бесплатная доставка по городу от 10 000 ₽</p>
+                <EditableText textKey="aboutDelivery" tag="h3" className="text-xl font-semibold mb-2">
+                  {texts.aboutDelivery}
+                </EditableText>
+                <EditableText textKey="aboutDeliveryText" tag="p" className="text-muted-foreground">
+                  {texts.aboutDeliveryText}
+                </EditableText>
               </Card>
               <Card className="p-6 text-center hover:shadow-lg transition-shadow bg-card border-primary/20">
                 <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Icon name="Shield" size={32} className="text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Гарантия</h3>
-                <p className="text-muted-foreground">2 года гарантии на всю мебель</p>
+                <EditableText textKey="aboutWarranty" tag="h3" className="text-xl font-semibold mb-2">
+                  {texts.aboutWarranty}
+                </EditableText>
+                <EditableText textKey="aboutWarrantyText" tag="p" className="text-muted-foreground">
+                  {texts.aboutWarrantyText}
+                </EditableText>
               </Card>
             </div>
           </div>
@@ -496,17 +603,23 @@ const Index = () => {
 
         <section id="contacts" className="py-16 px-4">
           <div className="container mx-auto max-w-4xl">
-            <h2 className="text-4xl font-bold text-center mb-12">Контакты</h2>
+            <EditableText textKey="contactsTitle" tag="h2" className="text-4xl font-bold text-center mb-12">
+              {texts.contactsTitle}
+            </EditableText>
             <div className="grid md:grid-cols-2 gap-8">
               <Card className="p-8 bg-card border-primary/20">
-                <h3 className="text-2xl font-semibold mb-6">Свяжитесь с нами</h3>
+                <EditableText textKey="contactsHeading" tag="h3" className="text-2xl font-semibold mb-6">
+                  {texts.contactsHeading}
+                </EditableText>
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
                       <Icon name="Phone" size={20} className="text-primary" />
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-1">Телефон</h4>
+                      <EditableText textKey="contactPhone" tag="h4" className="font-semibold mb-1">
+                        {texts.contactPhone}
+                      </EditableText>
                       <a href="tel:+79253129492" className="text-muted-foreground hover:text-primary transition-colors">8(925) 312-94-92</a>
                     </div>
                   </div>
@@ -515,7 +628,9 @@ const Index = () => {
                       <Icon name="Mail" size={20} className="text-primary" />
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-1">Email</h4>
+                      <EditableText textKey="contactEmail" tag="h4" className="font-semibold mb-1">
+                        {texts.contactEmail}
+                      </EditableText>
                       <a href="mailto:trixmebel@yandex.ru" className="text-muted-foreground hover:text-primary transition-colors">trixmebel@yandex.ru</a>
                     </div>
                   </div>
@@ -524,8 +639,12 @@ const Index = () => {
                       <Icon name="Clock" size={20} className="text-primary" />
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-1">Режим работы</h4>
-                      <p className="text-muted-foreground">Пн-Вс: 10:00 - 20:00</p>
+                      <EditableText textKey="contactSchedule" tag="h4" className="font-semibold mb-1">
+                        {texts.contactSchedule}
+                      </EditableText>
+                      <EditableText textKey="contactScheduleText" tag="p" className="text-muted-foreground">
+                        {texts.contactScheduleText}
+                      </EditableText>
                     </div>
                   </div>
                   <div className="mt-8">
@@ -537,7 +656,9 @@ const Index = () => {
                 </div>
               </Card>
               <Card className="p-8 bg-card border-primary/20">
-                <h3 className="text-2xl font-semibold mb-6">Оставьте заявку</h3>
+                <EditableText textKey="formTitle" tag="h3" className="text-2xl font-semibold mb-6">
+                  {texts.formTitle}
+                </EditableText>
                 <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-2">Ваше имя</label>
@@ -704,7 +825,9 @@ const Index = () => {
 
       <footer className="bg-muted/50 py-8 px-4 mt-16">
         <div className="container mx-auto text-center text-sm text-muted-foreground">
-          <p>© 2024 TRIKC. Все права защищены.</p>
+          <EditableText textKey="footerText" tag="p">
+            {texts.footerText}
+          </EditableText>
         </div>
       </footer>
 
